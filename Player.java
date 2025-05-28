@@ -106,7 +106,7 @@ public class Player {
             }
         }
         System.out.println("Player " + playerNumber + " HandRank: " + handRank.toString());
-        return 0;
+        return handRank.getHandRankValue();
     }
 
     private int countPairs(HashMap<Integer, Integer> ranks) {
