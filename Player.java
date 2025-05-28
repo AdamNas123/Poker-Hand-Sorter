@@ -14,6 +14,7 @@ public class Player {
         this.hand = new ArrayList<>(hand);
     }
 
+    //Overridden to string function to display player fields
     @Override
     public String toString() {
         return "Player {" +
@@ -23,6 +24,20 @@ public class Player {
                 ", winCount='" + winCount + '\'' +
                 '}'
                 ;
+    }
+
+    //Function to increment win count if their hand wins
+    public void incrementWinCount() {
+        ++winCount;
+    }
+
+    //Function to return the win count for the final output
+    public int getWinCount() {
+        return winCount;
+    }
+
+
+    public int rankHand() {
 
     }
 }
