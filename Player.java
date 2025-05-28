@@ -42,8 +42,12 @@ public class Player {
     }
 
     public int scoreHand() {
-        //Start by sorting hand into both hashmap of ranks and then suits
+        //Start by sorting hand into both hashmap of ranks (card values) and then suits
+
+        //Ranks Hashmap - rank:count pair
         HashMap<Integer, Integer> ranks = new HashMap<Integer, Integer>();
+
+        //Suits Hashmap - suit: count pair
         HashMap<Character, Integer> suits = new HashMap<Character, Integer>();
 
         //Sort hand into the ranks and suits hashmaps
@@ -54,39 +58,41 @@ public class Player {
         System.out.println("Player " + playerNumber + " Ranks: " + ranks.toString());
         System.out.println("Player " + playerNumber + " Suits: " + suits.toString());
 
-        //For ranks -> Determine if hand is 4 of a kind, full house, 3 of a kind, 2 pair or pair
-        countRanks(ranks);
-        System.out.println("Player " + playerNumber + " HandRank: " + handRank.toString());
-        //For suits -> Determine if hand is royal flush or flush
-        if (suits.containsValue(5)) {
-            this.handRank = HandRank.FLUSH;
-        }
-        // Straight -> Straight or straight flush
+        //Check for hands in reverse order of rank. I.e. Royal Flush first
         Object[] ranksArray = ranks.keySet().toArray();
-        if (isStraight(ranksArray)) {
-            this.handRank = HandRank.STRAIGHT;
-        }
-        return 0;
-    }
 
-    private void countRanks(HashMap<Integer, Integer> ranks) {
-        if (ranks.containsValue(4)) {
+        //Call the isStraight function to check if the hand is a straight
+        boolean isStraight = isStraight(ranksArray);
+
+        //Check if suits has one suit with 5 values (flush) and if ranks has an ace key (Could be a royal flush)
+        boolean isFlush = suits.containsValue(5);
+        boolean isRoyal = ranks.containsKey(14);
+
+        //ROYAL FLUSH: Straight + flush + has the ace
+        if (isStraight && isFlush && isRoyal) {
+            this.handRank = HandRank.ROYAL_FLUSH;
+        }
+        //STRAIGHT FLUSH: Straight + flush
+        else if (isStraight && isFlush) {
+            this.handRank = HandRank.STRAIGHT_FLUSH;
+        }
+        else if (ranks.containsValue(4)) {
             this.handRank = HandRank.FOUR_OF_A_KIND;
         }
         else if (ranks.containsValue(3) && ranks.containsValue(2)) {
             this.handRank = HandRank.FULL_HOUSE;
         }
+        else if (isFlush)  {
+            this.handRank = HandRank.FLUSH;
+        }
+        else if (isStraight)  {
+            this.handRank = HandRank.STRAIGHT;
+        }
         else if (ranks.containsValue(3)) {
             this.handRank = HandRank.THREE_OF_A_KIND;
         }
-        //Loop through the ranks hashmap to check if there is either a two pair or pair
         else {
-            int pairs = 0;
-            for (int rankCount : ranks.values()) {
-                if (rankCount == 2) {
-                    ++pairs;
-                }
-            }
+            int pairs = countPairs(ranks);
             if (pairs == 2) {
                 this.handRank = HandRank.TWO_PAIRS;
             }
@@ -97,6 +103,18 @@ public class Player {
                 this.handRank = HandRank.HIGH_CARD;
             }
         }
+        System.out.println("Player " + playerNumber + " HandRank: " + handRank.toString());
+        return 0;
+    }
+
+    private int countPairs(HashMap<Integer, Integer> ranks) {
+        int pairs = 0;
+        for (int rankCount : ranks.values()) {
+            if (rankCount == 2) {
+                ++pairs;
+            }
+        }
+        return pairs;
     }
 
     private boolean isStraight(Object[] ranksArray) {
