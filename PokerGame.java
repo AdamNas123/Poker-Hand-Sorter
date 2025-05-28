@@ -30,15 +30,15 @@ public class PokerGame {
             System.out.println(player2.toString());
 
             //Rank each player's hand, find the higher score, and increment that player's wins
-            int player1Score = player1.rankHand();
-            int player2Score = player2.rankHand();
+            int player1Score = player1.scoreHand();
+            int player2Score = player2.scoreHand();
             if (player1Score > player2Score) {
                 player1.incrementWinCount();
             }
             else {
                 player2.incrementWinCount();
             }
-            break;
+//            break;
 
             //Then, loop through each player's hands
             //Because of tied ranking cases, will need to consider the full hand

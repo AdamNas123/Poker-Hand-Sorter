@@ -118,14 +118,15 @@ public class Player {
     }
 
     private boolean isStraight(Object[] ranksArray) {
-        boolean isStraight = true;
+        int consecutiveCount = 0;
         for (int i = 0; i < ranksArray.length - 1; ++i) {
-            System.out.println("Converted int: " + (int)ranksArray[i+1]);
             if (((int) ranksArray[i + 1]) - (int)ranksArray[i] != 1) {
-                isStraight = false;
                 break;
             }
+            else {
+                ++consecutiveCount;
+            }
         }
-        return isStraight;
+        return consecutiveCount == 5;
     }
 }
