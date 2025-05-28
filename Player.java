@@ -1,6 +1,10 @@
 import java.util.*;
 
+/**
+ * Represents the player, their list of cards (hand) and number of wins
+ */
 public class Player {
     private int playerNumber;
     private List<Card> hand;
+    private int winCount;
 }
