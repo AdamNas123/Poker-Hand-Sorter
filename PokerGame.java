@@ -25,9 +25,19 @@ public class PokerGame {
 
             System.out.println(player1.toString());
             System.out.println(player2.toString());
+
+            //Rank each player's hand, find the higher score, and increment that player's wins
+            int player1Score = player1.rankHand();
+            int player2Score = player2.rankHand();
+            if (player1Score > player2Score) {
+                player1.incrementWinCount();
+            }
+            else {
+                player2.incrementWinCount();
+            }
             break;
-        }
-        //Then, loop through each player's hands
+
+            //Then, loop through each player's hands
             //Because of tied ranking cases, will need to consider the full hand
             //and give some sort of number ranking per hand
 
@@ -47,6 +57,8 @@ public class PokerGame {
              *      - Straight (5)
              *      - Straight Flush (9) (Combo of 3 and 4 cases)
              *      ~ Maybe Royal Flush (Combo of 3, 4 with specific cards)
-            */
+             */
+        }
+
     }
 }
