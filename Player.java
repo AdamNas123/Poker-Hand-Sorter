@@ -59,10 +59,12 @@ public class Player {
         System.out.println("Player " + playerNumber + " Suits: " + suits.toString());
 
         //Check for hands in reverse order of rank. I.e. Royal Flush first
-        Object[] ranksArray = ranks.keySet().toArray();
+//        Object[] ranksArray = ranks.keySet().toArray();
+        List<Integer> ranksList = new ArrayList<>(ranks.keySet());
+        Collections.sort(ranksList);
 
         //Call the isStraight function to check if the hand is a straight
-        boolean isStraight = isStraight(ranksArray);
+        boolean isStraight = isStraight(ranksList);
 
         //Check if suits has one suit with 5 values (flush) and if ranks has an ace key (Could be a royal flush)
         boolean isFlush = suits.containsValue(5);
@@ -117,16 +119,16 @@ public class Player {
         return pairs;
     }
 
-    private boolean isStraight(Object[] ranksArray) {
+    private boolean isStraight(List<Integer> ranksList) {
         int consecutiveCount = 0;
-        for (int i = 0; i < ranksArray.length - 1; ++i) {
-            if (((int) ranksArray[i + 1]) - (int)ranksArray[i] != 1) {
+        for (int i = 0; i < ranksList.size() - 1; ++i) {
+            if (ranksList.get(i + 1) - ranksList.get(i) != 1) {
                 break;
             }
             else {
                 ++consecutiveCount;
             }
         }
-        return consecutiveCount == 5;
+        return consecutiveCount == 4;
     }
 }
