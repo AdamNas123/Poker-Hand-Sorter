@@ -4,9 +4,12 @@ import java.util.Scanner;
 public class PokerGame {
 
     public static void main(String[] args) {
-    //First, read in hands and save them to player 1 and player 2 objects
+        //First, define a scanner to read in input from the terminal and initialise the 2 players
         Scanner scanner = new Scanner(System.in);
+        Player player1 = new Player(1);
+        Player player2 = new Player(2);
 
+        //Then, read in hands line by line and save them to player 1 and player 2 objects
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] hands = line.split(" ");
@@ -20,9 +23,9 @@ public class PokerGame {
                     playerTwoHand.add(card);
                 }
             }
-            Player player1 = new Player(1, playerOneHand);
-            Player player2 = new Player(2, playerTwoHand);
-
+            //Create a new hand for each player, for each round
+            player1.createHand(playerOneHand);
+            player2.createHand(playerTwoHand);
             System.out.println(player1.toString());
             System.out.println(player2.toString());
 
@@ -59,6 +62,7 @@ public class PokerGame {
              *      ~ Maybe Royal Flush (Combo of 3, 4 with specific cards)
              */
         }
-
+        System.out.println("Player 1: " + player1.getWinCount());
+        System.out.println("Player 2: " + player2.getWinCount());
     }
 }
