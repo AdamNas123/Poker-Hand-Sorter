@@ -41,7 +41,7 @@ public class Player {
         this.hand = new ArrayList<>(hand);
     }
 
-    public int rankHand() {
+    public int scoreHand() {
         //Start by sorting hand into both hashmap of ranks and then suits
         HashMap<Integer, Integer> ranks = new HashMap<Integer, Integer>();
         HashMap<Character, Integer> suits = new HashMap<Character, Integer>();
@@ -58,7 +58,14 @@ public class Player {
         countRanks(ranks);
         System.out.println("Player " + playerNumber + " HandRank: " + handRank.toString());
         //For suits -> Determine if hand is royal flush or flush
+        if (suits.containsValue(5)) {
+            this.handRank = HandRank.FLUSH;
+        }
         // Straight -> Straight or straight flush
+        Object[] ranksArray = ranks.keySet().toArray();
+        if (isStraight(ranksArray)) {
+            this.handRank = HandRank.STRAIGHT;
+        }
         return 0;
     }
 
@@ -90,5 +97,17 @@ public class Player {
                 this.handRank = HandRank.HIGH_CARD;
             }
         }
+    }
+
+    private boolean isStraight(Object[] ranksArray) {
+        boolean isStraight = true;
+        for (int i = 0; i < ranksArray.length - 1; ++i) {
+            System.out.println("Converted int: " + (int)ranksArray[i+1]);
+            if (((int) ranksArray[i + 1]) - (int)ranksArray[i] != 1) {
+                isStraight = false;
+                break;
+            }
+        }
+        return isStraight;
     }
 }
