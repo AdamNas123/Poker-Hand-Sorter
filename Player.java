@@ -6,6 +6,8 @@ import java.util.*;
 public class Player {
     private final int playerNumber;
     private List<Card> hand;
+    private HashMap<Integer, Integer> ranks;
+    private HashMap<Character, Integer> suits;
     private HandRank handRank;
     private int handScore = 0; //A total score of the hand required for tie-breaking cases
     private int winCount = 0;
@@ -39,27 +41,25 @@ public class Player {
 
     public void createHand(List<Card> hand) {
         this.hand = new ArrayList<>(hand);
-    }
 
-    public int scoreHand() {
-        //Start by sorting hand into both hashmap of ranks (card values) and then suits
-
+        //Sort hand into both hashmap of ranks (card values) and then suits
         //Ranks Hashmap - rank:count pair
-        HashMap<Integer, Integer> ranks = new HashMap<Integer, Integer>();
+        this.ranks = new HashMap<Integer, Integer>();
 
         //Suits Hashmap - suit: count pair
-        HashMap<Character, Integer> suits = new HashMap<Character, Integer>();
+        this.suits = new HashMap<Character, Integer>();
 
         //Sort hand into the ranks and suits hashmaps
         for (Card card : this.hand) {
-            ranks.merge(card.getRankValue(), 1, Integer::sum);
-            suits.merge(card.getSuit(), 1, Integer::sum);
+            this.ranks.merge(card.getRankValue(), 1, Integer::sum);
+            this.suits.merge(card.getSuit(), 1, Integer::sum);
         }
         System.out.println("Player " + playerNumber + " Ranks: " + ranks.toString());
         System.out.println("Player " + playerNumber + " Suits: " + suits.toString());
+    }
 
+    public int rankHand() {
         //Check for hands in reverse order of rank. I.e. Royal Flush first
-//        Object[] ranksArray = ranks.keySet().toArray();
         List<Integer> ranksList = new ArrayList<>(ranks.keySet());
         Collections.sort(ranksList);
 
@@ -130,5 +130,9 @@ public class Player {
             }
         }
         return consecutiveCount == 4;
+    }
+
+    public int scoreHand() {
+
     }
 }
