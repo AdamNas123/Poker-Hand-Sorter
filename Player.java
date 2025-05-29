@@ -133,6 +133,22 @@ public class Player {
     }
 
     public int scoreHand() {
-
+        return 0;
+        /*
+        Cases for same ranked hand:
+            1)NO ROYAL FLUSH since not considering suits
+            2)Straight Flush + Straight -> Look at highest value in straight
+                And determine winner from there - Nothing else since 5 cards
+            3) Four of a kind -> Look at value in four of a kind and find highest
+               - If same, look at remaining card and find highest
+            4) Three of a kind -> Same as 3)
+               - If same, look at next highest card and then final card
+            5) Two Pair -> Look at highest pair value - then second pair
+                - If both pairs -> Look at final remaining card
+            6) Pair -> Same as two pair but one pair
+                - Compare next 3 cards in descending order
+            7) Full House -> Higher 3 of a kind, then higher pair
+            8) Flush, High card -> Just loop through cards until highest value found
+         */
     }
 }
