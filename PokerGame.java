@@ -19,17 +19,17 @@ public class PokerGame {
             String line = scanner.nextLine();
             String[] hands = line.split(" ");
 
-            //Loop over the line, and add the first 5 cards to player 1's hand, and the next 5 to player 2's hand
-            List<Card> playerOneHand = new ArrayList<>();
-            List<Card> playerTwoHand = new ArrayList<>();
+            //Loop over the line, and add the first 5 card strings to player 1's hand, and the next 5 card strings to player 2's hand
+            List<String> playerOneHand = new ArrayList<>();
+            List<String> playerTwoHand = new ArrayList<>();
             for (int i = 0; i < hands.length; ++i) {
                 //Initialise each string as a new card, with a rank and suit
-                Card card = new Card(hands[i]);
+
                 if (i < 5) {
-                    playerOneHand.add(card);
+                    playerOneHand.add(hands[i]);
                 }
                 else {
-                    playerTwoHand.add(card);
+                    playerTwoHand.add(hands[i]);
                 }
             }
 

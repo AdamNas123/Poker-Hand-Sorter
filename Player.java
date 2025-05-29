@@ -5,6 +5,7 @@ import java.util.*;
  */
 public class Player {
     private final int playerNumber;
+    private List<Card> hand;
     private HashMap<Integer, Integer> ranks;
     private HashMap<Character, Integer> suits;
     private HandRank handRank;
@@ -20,6 +21,7 @@ public class Player {
     public String toString() {
         return "Player {" +
                 "playerNumber='" + playerNumber + '\'' +
+                ", hand='" + hand + '\'' +
                 ", handRank='" + handRank + '\'' +
                 ", winCount='" + winCount + '\'' +
                 '}'
@@ -44,7 +46,13 @@ public class Player {
      * @param hand List of cards for the player in the current round
      * Sets the ranks and suits hashmaps - Which record the card rank and card suit and frequency
      */
-    public void createHand(List<Card> hand) {
+    public void createHand(List<String> hand) {
+        //Create list of cards (Hand) for the player object
+        this.hand = new ArrayList<Card>();
+        for (String card : hand) {
+            this.hand.add(new Card(card));
+        }
+
         //Sort hand into both hashmap of ranks (card values) and then suits
         //Ranks Hashmap - rank:frequency pair
         this.ranks = new HashMap<Integer, Integer>();
@@ -53,7 +61,7 @@ public class Player {
         this.suits = new HashMap<Character, Integer>();
 
         //Sorts each card into the ranks and suits hashmaps
-        for (Card card : hand) {
+        for (Card card : this.hand) {
             //Checks if card exists in ranks and suits.
             //If it does not exist, it creates a new key:value pair with a value of 1
             //If it does exist, it sums the existing value with 1
