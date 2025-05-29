@@ -132,8 +132,10 @@ public class Player {
         return consecutiveCount == 4;
     }
 
-    public int scoreHand() {
-        return 0;
+    public int scoreStraightHands() {
+        return Collections.max(ranks.keySet());
+    }
+
         /*
         Cases for same ranked hand:
             1)NO ROYAL FLUSH since not considering suits
@@ -150,5 +152,16 @@ public class Player {
             7) Full House -> Higher 3 of a kind, then higher pair
             8) Flush, High card -> Just loop through cards until highest value found
          */
+
+    public List<Integer> getTieBreakerValues() {
+        // Get ranks and find the highest values (first), then add to list
+        List<Integer> sortedCardValues = new ArrayList<>();
+        int currentRankCount = Collections.max(ranks.values());
+        for (Map.Entry<Integer, Integer> rank : ranks.entrySet()) {
+            if (rank.getValue() == currentRankCount) {
+
+            }
+        }
+
     }
 }

@@ -30,22 +30,31 @@ public class PokerGame {
             System.out.println(player2.toString());
 
             //Rank each player's hand, find the higher score, and increment that player's wins
-            int player1Score = player1.rankHand();
-            int player2Score = player2.rankHand();
-            if (player1Score > player2Score) {
+            int player1Hand = player1.rankHand();
+            int player2Hand = player2.rankHand();
+            if (player1Hand > player2Hand) {
                 player1.incrementWinCount();
             }
-            else if (player1Score < player2Score) {
+//            else if (player1Hand < player2Hand) {
+            else {
                 player2.incrementWinCount();
             }
-            else {
-                if (player1.scoreHand() > player2.scoreHand()) {
-                    player1.incrementWinCount();
-                }
-                else {
-                    player2.incrementWinCount();
-                }
-            }
+//            else {
+//                int player1Score = player1.scoreHand();
+//                int player2Score = player2.scoreHand();
+//                if (player1Score > player2Score) {
+//                    player1.incrementWinCount();
+//                }
+//                else if (player1Score < player2Score) {
+//                    player2.incrementWinCount();
+//                }
+//                else {
+//                    //Check highest value in hand
+//
+//                    //Hand ranks will be the same in this else statement
+//                    int winner = scoreHand(player1, player2, player1Hand);
+//                }
+//            }
             //Then, loop through each player's hands
             //Because of tied ranking cases, will need to consider the full hand
             //and give some sort of number ranking per hand
@@ -70,5 +79,29 @@ public class PokerGame {
         }
         System.out.println("Player 1: " + player1.getWinCount());
         System.out.println("Player 2: " + player2.getWinCount());
+    }
+
+    public static int scoreHand(Player player1, Player player2, int handRank) {
+        //HandRank here is the associated number in the enum
+        int winner = 0;
+
+        //Straight and Straight Flush cases
+        if (handRank == 9 || handRank == 5) {
+            if (player1.scoreStraightHands() > player2.scoreStraightHands()) {
+                winner = 1;
+            }
+            else {
+                winner = 2;
+            }
+        }
+
+        //All other cases -> Can use the RANKS hashmap to order by count first, then value -> And sort this in descending order
+        //Since the ranks hashmap will be of the same length
+        else {
+            while (winner == 0) {
+
+            }
+        }
+        return winner;
     }
 }
