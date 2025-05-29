@@ -5,50 +5,58 @@ import java.util.*;
  */
 public class Player {
     private final int playerNumber;
-    private List<Card> hand;
     private HashMap<Integer, Integer> ranks;
     private HashMap<Character, Integer> suits;
     private HandRank handRank;
     private int winCount = 0;
 
+    //Constructor that sets the player number
     public Player(int playerNumber) {
         this.playerNumber = playerNumber;
     }
 
-    //Overridden to string function to display player fields
+    //Overridden toString function to display player fields
     @Override
     public String toString() {
         return "Player {" +
                 "playerNumber='" + playerNumber + '\'' +
-                ", hand='" + hand + '\'' +
                 ", handRank='" + handRank + '\'' +
                 ", winCount='" + winCount + '\'' +
                 '}'
                 ;
     }
 
-    //Function to increment win count if their hand wins
+    /**
+     * Function that increments the number of wins for a player
+     */
     public void incrementWinCount() {
         ++winCount;
     }
 
-    //Function to return the win count for the final output
+    /**
+     * Function that returns the number of wins for a player
+     */
     public int getWinCount() {
         return winCount;
     }
 
+    /**
+     * @param hand List of cards for the player in the current round
+     * Sets the ranks and suits hashmaps - Which record the card rank and card suit and frequency
+     */
     public void createHand(List<Card> hand) {
-        this.hand = new ArrayList<>(hand);
-
         //Sort hand into both hashmap of ranks (card values) and then suits
-        //Ranks Hashmap - rank:count pair
+        //Ranks Hashmap - rank:frequency pair
         this.ranks = new HashMap<Integer, Integer>();
 
-        //Suits Hashmap - suit: count pair
+        //Suits Hashmap - suit:frequency pair
         this.suits = new HashMap<Character, Integer>();
 
-        //Sort hand into the ranks and suits hashmaps
-        for (Card card : this.hand) {
+        //Sorts each card into the ranks and suits hashmaps
+        for (Card card : hand) {
+            //Checks if card exists in ranks and suits.
+            //If it does not exist, it creates a new key:value pair with a value of 1
+            //If it does exist, it sums the existing value with 1
             this.ranks.merge(card.getRankValue(), 1, Integer::sum);
             this.suits.merge(card.getSuit(), 1, Integer::sum);
         }
