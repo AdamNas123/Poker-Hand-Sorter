@@ -64,43 +64,53 @@ public class Player {
         System.out.println("Player " + playerNumber + " Suits: " + suits.toString());
     }
 
+    /**
+     * @return numeric value of the handRank enum that is determined from the given player's hand
+     * Checks for hands in reverse order of rank. I.e. Royal Flush first
+     */
     public int rankHand() {
-        //Check for hands in reverse order of rank. I.e. Royal Flush first
+        //
         List<Integer> ranksList = new ArrayList<>(ranks.keySet());
         Collections.sort(ranksList);
 
         //Call the isStraight function to check if the hand is a straight
         boolean isStraight = isStraight(ranksList);
 
-        //Check if suits has one suit with 5 values (flush) and if ranks has an ace key (Could be a royal flush)
-        boolean isFlush = suits.containsValue(5);
-        boolean isRoyal = ranks.containsKey(14);
+        //Check if hand has one suit with 5 values (flush) and if hand has an ace (Could be a royal flush)
+        boolean isFlush = suits.containsValue(5); //5 is the total number of cards in a hand
+        boolean hasAce = ranks.containsKey(14); //14 is the numerical value of the ace card
 
         //ROYAL FLUSH: Straight + flush + has the ace
-        if (isStraight && isFlush && isRoyal) {
+        if (isStraight && isFlush && hasAce) {
             this.handRank = HandRank.ROYAL_FLUSH;
         }
-        //STRAIGHT FLUSH: Straight + flush
+        //STRAIGHT_FLUSH: Straight + flush
         else if (isStraight && isFlush) {
             this.handRank = HandRank.STRAIGHT_FLUSH;
         }
+        //FOUR_OF_A_KIND: Four cards with same value/rank
         else if (ranks.containsValue(4)) {
             this.handRank = HandRank.FOUR_OF_A_KIND;
         }
+        //FULL_HOUSE: Three of a kind + pair
         else if (ranks.containsValue(3) && ranks.containsValue(2)) {
             this.handRank = HandRank.FULL_HOUSE;
         }
+        //FLUSH: 5 cards with same suit
         else if (isFlush)  {
             this.handRank = HandRank.FLUSH;
         }
+        //STRAIGHT: 5 cards in consecutive order
         else if (isStraight)  {
             this.handRank = HandRank.STRAIGHT;
         }
+        //THREE_OF_A_KIND
         else if (ranks.containsValue(3)) {
             this.handRank = HandRank.THREE_OF_A_KIND;
         }
+        //Checks for amount of pairs and sets handRank accordingly. If no pairs, sets rank to just HIGH_CARD.
         else {
-            int pairs = countPairs(ranks);
+            int pairs = countPairs();
             if (pairs == 2) {
                 this.handRank = HandRank.TWO_PAIRS;
             }
@@ -115,7 +125,10 @@ public class Player {
         return handRank.getHandRankValue();
     }
 
-    private int countPairs(HashMap<Integer, Integer> ranks) {
+    /**
+     * @return number of pairs in the hand (0, 1 or 2)
+     */
+    private int countPairs() {
         int pairs = 0;
         for (int rankCount : ranks.values()) {
             if (rankCount == 2) {
@@ -125,8 +138,12 @@ public class Player {
         return pairs;
     }
 
+    /**
+     * @return true if hand is straight, false if hand is not straight
+     */
     private boolean isStraight(List<Integer> ranksList) {
         int consecutiveCount = 0;
+        //Iterates over the list of card values (ranksList) and checks if the difference between each is 1 (consecutive)
         for (int i = 0; i < ranksList.size() - 1; ++i) {
             if (ranksList.get(i + 1) - ranksList.get(i) != 1) {
                 break;
@@ -135,13 +152,20 @@ public class Player {
                 ++consecutiveCount;
             }
         }
+        //Return true if there are 4 consecutive steps between card values (5 cards)
         return consecutiveCount == 4;
     }
 
+    /**
+     * @return highest card value in a straight hand
+     */
     public int scoreStraightHands() {
         return Collections.max(ranks.keySet());
     }
 
+    /**
+     * @return List of card values in descending order, based on handRank, then count
+     */
     public List<Integer> getTieBreakerValues() {
         List<Integer> sortedCardValues = new ArrayList<>();
         // Get the highest count of one card in any hand (Maximum expected value will be 4 - Since straight is not considered here)
