@@ -9,7 +9,6 @@ public class Player {
     private HashMap<Integer, Integer> ranks;
     private HashMap<Character, Integer> suits;
     private HandRank handRank;
-    private int handScore = 0; //A total score of the hand required for tie-breaking cases
     private int winCount = 0;
 
     public Player(int playerNumber) {
@@ -22,7 +21,6 @@ public class Player {
         return "Player {" +
                 "playerNumber='" + playerNumber + '\'' +
                 ", hand='" + hand + '\'' +
-                ", handScore='" + handScore + '\'' +
                 ", handRank='" + handRank + '\'' +
                 ", winCount='" + winCount + '\'' +
                 '}'
@@ -136,23 +134,6 @@ public class Player {
         return Collections.max(ranks.keySet());
     }
 
-        /*
-        Cases for same ranked hand:
-            1)NO ROYAL FLUSH since not considering suits
-            2)Straight Flush + Straight -> Look at highest value in straight
-                And determine winner from there - Nothing else since 5 cards
-            3) Four of a kind -> Look at value in four of a kind and find highest
-               - If same, look at remaining card and find highest
-            4) Three of a kind -> Same as 3)
-               - If same, look at next highest card and then final card
-            5) Two Pair -> Look at highest pair value - then second pair
-                - If both pairs -> Look at final remaining card
-            6) Pair -> Same as two pair but one pair
-                - Compare next 3 cards in descending order
-            7) Full House -> Higher 3 of a kind, then higher pair
-            8) Flush, High card -> Just loop through cards until highest value found
-         */
-
     public List<Integer> getTieBreakerValues() {
         List<Integer> sortedCardValues = new ArrayList<>();
         // Get the highest count of one card in any hand (Maximum expected value will be 4 - Since straight is not considered here)
@@ -178,4 +159,22 @@ public class Player {
         }
         return sortedCardValues;
     }
+
+    /*
+    Initial Planning Notes
+        Cases for same ranked hand:
+            1)NO ROYAL FLUSH since not considering suits
+            2)Straight Flush + Straight -> Look at highest value in straight
+                And determine winner from there - Nothing else since 5 cards
+            3) Four of a kind -> Look at value in four of a kind and find highest
+               - If same, look at remaining card and find highest
+            4) Three of a kind -> Same as 3)
+               - If same, look at next highest card and then final card
+            5) Two Pair -> Look at highest pair value - then second pair
+                - If both pairs -> Look at final remaining card
+            6) Pair -> Same as two pair but one pair
+                - Compare next 3 cards in descending order
+            7) Full House -> Higher 3 of a kind, then higher pair
+            8) Flush, High card -> Just loop through cards until highest value found
+         */
 }
