@@ -154,14 +154,28 @@ public class Player {
          */
 
     public List<Integer> getTieBreakerValues() {
-        // Get ranks and find the highest values (first), then add to list
         List<Integer> sortedCardValues = new ArrayList<>();
+        // Get the highest count of one card in any hand (Maximum expected value will be 4 - Since straight is not considered here)
         int currentRankCount = Collections.max(ranks.values());
-        for (Map.Entry<Integer, Integer> rank : ranks.entrySet()) {
-            if (rank.getValue() == currentRankCount) {
 
+        //Loop to add the card values in the hand in the highest hand rank, then in order of individual value
+        while (currentRankCount > 0) {
+            //Create a list to store the card values with the same count in descending order
+            List<Integer> sameCountCards = new ArrayList<>();
+
+            //Loop over the ranks hashmap and find all cards that have the same count and add them to the list
+            for (Map.Entry<Integer, Integer> rank : ranks.entrySet()) {
+                if (rank.getValue() == currentRankCount) {
+                    sameCountCards.add(rank.getKey());
+                }
             }
-        }
+            //Sort the list of same count cards in descending order
+            sameCountCards.sort(Collections.reverseOrder());
 
+            //Append the small list to the larger sorted card values list
+            sortedCardValues.addAll(sameCountCards);
+            --currentRankCount;
+        }
+        return sortedCardValues;
     }
 }

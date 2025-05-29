@@ -35,26 +35,20 @@ public class PokerGame {
             if (player1Hand > player2Hand) {
                 player1.incrementWinCount();
             }
-//            else if (player1Hand < player2Hand) {
-            else {
+            else if (player1Hand < player2Hand) {
+
                 player2.incrementWinCount();
             }
-//            else {
-//                int player1Score = player1.scoreHand();
-//                int player2Score = player2.scoreHand();
-//                if (player1Score > player2Score) {
-//                    player1.incrementWinCount();
-//                }
-//                else if (player1Score < player2Score) {
-//                    player2.incrementWinCount();
-//                }
-//                else {
-//                    //Check highest value in hand
-//
-//                    //Hand ranks will be the same in this else statement
-//                    int winner = scoreHand(player1, player2, player1Hand);
-//                }
-//            }
+            else {
+                //Check highest values in hands (Hand ranks will be the same in this else statement)
+                int winner = scoreHand(player1, player2, player1Hand);
+                if (winner == 1) {
+                    player1.incrementWinCount();
+                }
+                else if (winner == 2) {
+                    player2.incrementWinCount();
+                }
+                }
             //Then, loop through each player's hands
             //Because of tied ranking cases, will need to consider the full hand
             //and give some sort of number ranking per hand
@@ -95,11 +89,21 @@ public class PokerGame {
             }
         }
 
-        //All other cases -> Can use the RANKS hashmap to order by count first, then value -> And sort this in descending order
-        //Since the ranks hashmap will be of the same length
+        //All other cases -> Get card values ordered in descending order based on count and value
+        // Then iterate through to find the winner by comparing each value in the list
         else {
-            while (winner == 0) {
+            List<Integer> player1SortedHand = player1.getTieBreakerValues();
+            List<Integer> player2SortedHand = player2.getTieBreakerValues();
 
+            for (int i = 0; i < player1SortedHand.size(); ++i) {
+                if (player1SortedHand.get(i) > player2SortedHand.get(i)) {
+                    winner = 1;
+                    break;
+                }
+                else if (player1SortedHand.get(i) < player2SortedHand.get(i)){
+                    winner = 2;
+                    break;
+                }
             }
         }
         return winner;
