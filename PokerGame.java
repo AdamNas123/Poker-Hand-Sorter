@@ -92,8 +92,8 @@ public class PokerGame {
         // Then iterate through to find the winner by comparing each value in the list
         else {
             //Call functions to get both hands sorted in descending order based on count and value
-            List<Integer> player1SortedHand = player1.getTieBreakerValues();
-            List<Integer> player2SortedHand = player2.getTieBreakerValues();
+            List<Integer> player1SortedHand = player1.sortTiebreakerHand();
+            List<Integer> player2SortedHand = player2.sortTiebreakerHand();
 
             //Loop over the lists and determine winner by getting the first card that is higher
             for (int i = 0; i < player1SortedHand.size(); ++i) {

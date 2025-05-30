@@ -16,16 +16,11 @@ public class Player {
         this.playerNumber = playerNumber;
     }
 
-    //Overridden toString function to display player fields
-    @Override
-    public String toString() {
-        return "Player {" +
-                "playerNumber='" + playerNumber + '\'' +
-                ", hand='" + hand + '\'' +
-                ", handRank='" + handRank + '\'' +
-                ", wins='" + wins + '\'' +
-                '}'
-                ;
+    /**
+     * Function that returns the number of wins for a player
+     */
+    public int getWins() {
+        return wins;
     }
 
     /**
@@ -33,13 +28,6 @@ public class Player {
      */
     public void addWin() {
         ++wins;
-    }
-
-    /**
-     * Function that returns the number of wins for a player
-     */
-    public int getWins() {
-        return wins;
     }
 
     /**
@@ -134,6 +122,42 @@ public class Player {
     }
 
     /**
+     * @return highest card value in a straight hand
+     */
+    public int scoreStraightHands() {
+        return Collections.max(ranks.keySet());
+    }
+
+    /**
+     * @return List of card values in descending order, based on handRank, then count
+     */
+    public List<Integer> sortTiebreakerHand() {
+        List<Integer> sortedCardValues = new ArrayList<>();
+        // Get the highest count of one card in any hand (Maximum expected value will be 4 - Since straight is not considered here)
+        int currentRankCount = Collections.max(ranks.values());
+
+        //Loop to add the card values in the hand in the highest hand rank, then in order of individual value
+        while (currentRankCount > 0) {
+            //Create a list to store the card values with the same count in descending order
+            List<Integer> sameCountCards = new ArrayList<>();
+
+            //Loop over the ranks hashmap and find all cards that have the same count and add them to the list
+            for (Map.Entry<Integer, Integer> rank : ranks.entrySet()) {
+                if (rank.getValue() == currentRankCount) {
+                    sameCountCards.add(rank.getKey());
+                }
+            }
+            //Sort the list of same count cards in descending order
+            sameCountCards.sort(Collections.reverseOrder());
+
+            //Append the small list to the larger sorted card values list
+            sortedCardValues.addAll(sameCountCards);
+            --currentRankCount;
+        }
+        return sortedCardValues;
+    }
+
+    /**
      * @return number of pairs in the hand (0, 1 or 2)
      */
     private int countPairs() {
@@ -164,40 +188,16 @@ public class Player {
         return consecutiveCount == 4;
     }
 
-    /**
-     * @return highest card value in a straight hand
-     */
-    public int scoreStraightHands() {
-        return Collections.max(ranks.keySet());
-    }
-
-    /**
-     * @return List of card values in descending order, based on handRank, then count
-     */
-    public List<Integer> getTieBreakerValues() {
-        List<Integer> sortedCardValues = new ArrayList<>();
-        // Get the highest count of one card in any hand (Maximum expected value will be 4 - Since straight is not considered here)
-        int currentRankCount = Collections.max(ranks.values());
-
-        //Loop to add the card values in the hand in the highest hand rank, then in order of individual value
-        while (currentRankCount > 0) {
-            //Create a list to store the card values with the same count in descending order
-            List<Integer> sameCountCards = new ArrayList<>();
-
-            //Loop over the ranks hashmap and find all cards that have the same count and add them to the list
-            for (Map.Entry<Integer, Integer> rank : ranks.entrySet()) {
-                if (rank.getValue() == currentRankCount) {
-                    sameCountCards.add(rank.getKey());
-                }
-            }
-            //Sort the list of same count cards in descending order
-            sameCountCards.sort(Collections.reverseOrder());
-
-            //Append the small list to the larger sorted card values list
-            sortedCardValues.addAll(sameCountCards);
-            --currentRankCount;
-        }
-        return sortedCardValues;
+    //Overridden toString function to display player fields
+    @Override
+    public String toString() {
+        return "Player {" +
+                "playerNumber='" + playerNumber + '\'' +
+                ", hand='" + hand + '\'' +
+                ", handRank='" + handRank + '\'' +
+                ", wins='" + wins + '\'' +
+                '}'
+                ;
     }
 
     /*
