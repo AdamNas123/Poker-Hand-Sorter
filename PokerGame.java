@@ -8,23 +8,25 @@ import java.util.Scanner;
 public class PokerGame {
 
     public static void main(String[] args) {
-        //First, define a scanner to read in input from the terminal and initialise the 2 players
+        //Define a scanner to read in input from the terminal and initialise the 2 players
         Scanner scanner = new Scanner(System.in);
         Player player1 = new Player(1);
         Player player2 = new Player(2);
 
-        //Then, read in hands line by line and save them to player 1 and player 2 objects
+        //Read in hands line by line and save them to player 1 and player 2 objects
         while (scanner.hasNextLine()) {
             //Read in the next line from the text file and split the line based on the whitespaces
             String line = scanner.nextLine();
             String[] hands = line.split(" ");
-
+            if (hands.length != 10) {
+                System.err.println("Invalid input: Expected 10 cards but received " + hands.length + " on line: " + line);
+                System.exit(1);
+            }
             //Loop over the line, and add the first 5 card strings to player 1's hand, and the next 5 card strings to player 2's hand
             List<String> playerOneHand = new ArrayList<>();
             List<String> playerTwoHand = new ArrayList<>();
             for (int i = 0; i < hands.length; ++i) {
-                //Initialise each string as a new card, with a rank and suit
-
+                //Add each string to the associated player's hand
                 if (i < 5) {
                     playerOneHand.add(hands[i]);
                 }
@@ -43,10 +45,10 @@ public class PokerGame {
             int player1Hand = player1.rankHand();
             int player2Hand = player2.rankHand();
             if (player1Hand > player2Hand) {
-                player1.incrementWinCount();
+                player1.addWin();
             }
             else if (player1Hand < player2Hand) {
-                player2.incrementWinCount();
+                player2.addWin();
             }
             //If both hands are tied, score each hand based on the highest card values within the hand
             //Add a win to the player that has the higher valued hand
@@ -54,16 +56,16 @@ public class PokerGame {
                 //Check highest values in hands (Hand ranks will be the same in this else statement)
                 int winner = scoreHand(player1, player2, player1Hand);
                 if (winner == 1) {
-                    player1.incrementWinCount();
+                    player1.addWin();
                 }
                 else if (winner == 2) {
-                    player2.incrementWinCount();
+                    player2.addWin();
                 }
             }
         }
         //After reading all hands, print the number of wins per player
-        System.out.println("Player 1: " + player1.getWinCount());
-        System.out.println("Player 2: " + player2.getWinCount());
+        System.out.println("Player 1: " + player1.getWins());
+        System.out.println("Player 2: " + player2.getWins());
     }
 
     /**

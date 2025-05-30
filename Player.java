@@ -9,7 +9,7 @@ public class Player {
     private HashMap<Integer, Integer> ranks;
     private HashMap<Character, Integer> suits;
     private HandRank handRank;
-    private int winCount = 0;
+    private int wins = 0;
 
     //Constructor that sets the player number
     public Player(int playerNumber) {
@@ -23,7 +23,7 @@ public class Player {
                 "playerNumber='" + playerNumber + '\'' +
                 ", hand='" + hand + '\'' +
                 ", handRank='" + handRank + '\'' +
-                ", winCount='" + winCount + '\'' +
+                ", wins='" + wins + '\'' +
                 '}'
                 ;
     }
@@ -31,15 +31,15 @@ public class Player {
     /**
      * Function that increments the number of wins for a player
      */
-    public void incrementWinCount() {
-        ++winCount;
+    public void addWin() {
+        ++wins;
     }
 
     /**
      * Function that returns the number of wins for a player
      */
-    public int getWinCount() {
-        return winCount;
+    public int getWins() {
+        return wins;
     }
 
     /**

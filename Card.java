@@ -7,8 +7,16 @@ public class Card {
 
     //Constructor that takes the 2 parts of the card string and splits into a rank and suit
     public Card(String card) {
+        if (card.length() != 2) {
+            System.err.println("Invalid input: Card " + card + " must have exactly 2 characters");
+            System.exit(1);
+        }
         this.rank = card.charAt(0);
         this.suit = card.charAt(1);
+        if ("23456789TJQKA".indexOf(rank) == -1 ||"DHSC".indexOf(suit) == -1) {
+            System.err.println("Invalid input: Card " + card + " is not in expected format");
+            System.exit(1);
+        }
     }
 
     // Function to get the numeric value of cards with a value of 10 or more,
