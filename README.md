@@ -27,5 +27,4 @@ To build a new executable .jar file, run the below commands:
 javac *.java
 jar cfm my-poker-solution.jar manifest.txt *.class
 ```
-
-This will create a new `my-poker-solution.jar` file that can be run using the command mentioned previously. 
+This will first create class files for each java file, and then a new `my-poker-solution.jar` file that can be run using the command mentioned previously. 
