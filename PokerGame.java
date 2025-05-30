@@ -38,8 +38,6 @@ public class PokerGame {
             //Create a new hand for each player, for each round
             player1.createHand(playerOneHand);
             player2.createHand(playerTwoHand);
-            System.out.println(player1.toString());
-            System.out.println(player2.toString());
 
             //Get the rank of each player's hand and add a win to the player that has a higher ranked hand
             int player1Hand = player1.rankHand();
@@ -51,7 +49,7 @@ public class PokerGame {
                 player2.addWin();
             }
             //If both hands are tied, score each hand based on the highest card values within the hand
-            //Add a win to the player that has the higher valued hand
+            //If they remain exactly tied, no player wins
             else {
                 //Check highest values in hands (Hand ranks will be the same in this else statement)
                 int winner = scoreHand(player1, player2, player1Hand);

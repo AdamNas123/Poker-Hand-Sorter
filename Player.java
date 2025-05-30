@@ -56,8 +56,6 @@ public class Player {
             this.ranks.merge(card.getRankValue(), 1, Integer::sum);
             this.suits.merge(card.getSuit(), 1, Integer::sum);
         }
-        System.out.println("Player " + playerNumber + " Ranks: " + ranks.toString());
-        System.out.println("Player " + playerNumber + " Suits: " + suits.toString());
     }
 
     /**
@@ -117,7 +115,6 @@ public class Player {
                 this.handRank = HandRank.HIGH_CARD;
             }
         }
-        System.out.println("Player " + playerNumber + " HandRank: " + handRank.toString());
         return handRank.getHandRankValue();
     }
 
