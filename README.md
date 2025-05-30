@@ -12,6 +12,7 @@ After all lines have been read by the program, the program will output the numbe
 Player 1: 263
 Player 2: 237
 ```
+The program was created using Java version 24.0.1.
 
 ### Running the Program
 A pre-built .jar file called `my-poker-solution.jar` has been included in this repository.
