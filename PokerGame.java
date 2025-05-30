@@ -108,8 +108,9 @@ public class PokerGame {
         }
         return winner;
     }
+}
 
-    /*
+/*
     Initial Planning Notes:
     There are some base cases that each hand can fall in:
      * 1) High Card (1)
@@ -128,4 +129,3 @@ public class PokerGame {
      *      - Straight Flush (9) (Combo of 3 and 4 cases)
      *      ~ Maybe Royal Flush (Combo of 3, 4 with specific cards)
      */
-}
